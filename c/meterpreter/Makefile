@@ -16,16 +16,19 @@ install:
 ### Build all
 ##########################################################################################
 
-meterpreter: meterpreter-x86 meterpreter-x64
+meterpreter: meterpreter-x86
 
-meterpreter-x86: meterpreter-x86-gen meterpreter-x86-build
+meterpreter-x86:  meterpreter-x86-gen-debug meterpreter-x86-build-debug
 
 meterpreter-x86-gen:
 	@cmake -S workspace -B workspace/build/mingw-x86 $(COMMON_GEN_X86)
+meterpreter-x86-gen-debug:
+	@cmake -S workspace -B workspace/build/mingw-x86-debug $(COMMON_GEN_X86) -DCMAKE_BUILD_TYPE=Debug
 
 meterpreter-x86-build:
-	@cmake --build workspace/build/mingw-x86 $(COMMON_BUILD)
-
+	@cmake --build workspace/build/mingw-x86
+meterpreter-x86-build-debug:
+	@cmake --build workspace/build/mingw-x86-debug
 meterpreter-x86-clean:
 	@rm -rf workspace/build/mingw-x86* && rm -rf output/*.x86.dll
 
@@ -46,15 +49,21 @@ meterpreter-x64-clean:
 
 ### Metsrv
 
-meterpreter-metsrv: meterpreter-metsrv-x86 meterpreter-metsrv-x64
+meterpreter-metsrv: meterpreter-metsrv-x86 meterpreter-metsrv-x86-debug
 
 meterpreter-metsrv-x86: meterpreter-metsrv-x86-gen meterpreter-metsrv-x86-build
+meterpreter-metsrv-x86-debug: meterpreter-metsrv-x86-gen-debug meterpreter-metsrv-x86-build-debug
+
 
 meterpreter-metsrv-x86-gen:
 	@cmake -S workspace -B workspace/build/mingw-x86-metsrv -DBUILD_ALL=OFF -DBUILD_METSRV=ON $(COMMON_GEN_X86)
+meterpreter-metsrv-x86-gen-debug:
+	@cmake -S workspace -B workspace/build/mingw-x86-metsrv-debug -DBUILD_ALL=OFF -DBUILD_METSRV=ON $(COMMON_GEN_X86) -DCMAKE_BUILD_TYPE=Debug
 
 meterpreter-metsrv-x86-build:
 	@cmake --build workspace/build/mingw-x86-metsrv $(COMMON_BUILD)
+meterpreter-metsrv-x86-build-debug:
+	@cmake --build workspace/build/mingw-x86-metsrv-debug $(COMMON_BUILD)
 
 meterpreter-metsrv-x64: meterpreter-metsrv-x64-gen meterpreter-metsrv-x64-build
 

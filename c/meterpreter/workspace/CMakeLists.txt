@@ -122,6 +122,11 @@ else()
     set(IS_DEBUG true)
 endif()
 
+if(IS_DEBUG)
+    set(CMAKE_SHARED_LIBRARY_SUFFIX ".debug.dll")
+    set(CMAKE_C_FLAGS_DEBUG "-g -Og")
+endif()
+
 add_definitions(
     -DNDEBUG
     -D_WINDOWS
